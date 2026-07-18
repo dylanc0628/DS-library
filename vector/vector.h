@@ -11,13 +11,15 @@ class Vector {
     size_t size_;
 
     public:
-    Vector() {
+    Vector() { 
+        //constructor
         size_ = 0;
         capacity_ = 10;
         data_ = new T[capacity_];
     }
 
     Vector(const Vector& other) {
+        //copy constructor
         size_ = other.size_;
         capacity_ = other.capacity_;
         data_ = new T[capacity_];
@@ -28,6 +30,7 @@ class Vector {
     }
 
     Vector& operator=(const Vector& other) {
+        //copy assignment operator
         if (this == &other) {
             return *this;
         }
@@ -38,14 +41,15 @@ class Vector {
         capacity_ = other.capacity_;
         data_ = new T[capacity_];
 
-        for(size_t = i; i < size_; i++) {
-            data_[i] = other.data_[i]
+        for(size_t i = 0; i < size_; i++) {
+            data_[i] = other.data_[i];
         }
 
         return *this;
     }
 
     Vector(Vector&& other) {
+        //move constructor
         data_ = other.data_;
         size_ = other.size_;
         capacity_ = other.capacity_;
@@ -56,6 +60,7 @@ class Vector {
     }
 
     Vector& operator=(Vector&& other) {
+        //move assignment operator
         if (this == &other) {
             return *this;
         }
@@ -131,14 +136,14 @@ class Vector {
     }
 
     T* end() {
-        return data_ + size_
+        return data_ + size_;
     }
 
-    const T* begin() {
+    const T* begin2() {
         return data_;
     }
 
-    const T* end() {
-        return data_ + size_
+    const T* end2() {
+        return data_ + size_;
     }
 };
