@@ -18,6 +18,18 @@ class Vector {
         data_ = new T[capacity_];
     }
 
+    Vector(std::initializer_list<T> other) {
+        size_ = other.size();
+        capacity_ = size_ + 10;
+        data_ = new T[capacity_];
+
+        size_t i = 0;
+        for (const auto& val : other) {
+            data_[i] = val;
+            i++;
+        }
+    }
+
     Vector(const Vector& other) {
         //copy constructor
         size_ = other.size_;
