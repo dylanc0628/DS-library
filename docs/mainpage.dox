@@ -1,0 +1,42 @@
+/**
+ * @mainpage DS Library
+ *
+ * @section intro Introduction
+ *
+ * DS Library is a modern C++17 data structure library designed
+ * for learning, experimentation, and reusable software development.
+ *
+ * @section features Features
+ *
+ * Currently implemented:
+ * - Vector
+ *
+ * Planned:
+ * - Linked List
+ * - Stack
+ * - Queue
+ * - Binary Search Tree
+ * - Hash Table
+ * - Graph
+ *
+ * @section usage Usage
+ *
+ * Example:
+ *
+ * @code
+ * #include <ds/vector.hpp>
+ *
+ * ds::Vector<int> numbers{1, 2, 3};
+
+ * numbers.push_back(4);
+ 
+ * @endcode
+ *
+ * @section testing Testing
+ *
+ * The library uses Catch2 for unit testing.
+ *
+ * @section build Building
+ *
+ * The project uses CMake as its build system.
+ */

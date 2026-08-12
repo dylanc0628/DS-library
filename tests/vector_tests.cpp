@@ -1,6 +1,7 @@
 #include <ds/vector.hpp>
 #include <catch2/catch_test_macros.hpp>
 #include <string>
+#include <utility>
 
 TEST_CASE("Vector construction", "[vector][constructor]") {
 
@@ -8,6 +9,13 @@ TEST_CASE("Vector construction", "[vector][constructor]") {
         ds::Vector<int> arr;
 
         REQUIRE(arr.size() == 0);
+    }
+
+    SECTION("Constructor with a custom capacity") {
+        ds::Vector<int> arr(50);
+
+        REQUIRE(arr.empty() == true);
+        REQUIRE(arr.capacity() == 50);
     }
 
     SECTION("Initialized vector") {
@@ -33,6 +41,18 @@ TEST_CASE("Vector construction", "[vector][constructor]") {
         REQUIRE(arr2.at(0) == arr1.at(0));
         REQUIRE(arr2.at(1) == arr1.at(1));
         REQUIRE(arr2.at(2) == arr1.at(2));
+    }
+
+    SECTION("Move constructor") {
+        ds::Vector<int> arr1{1, 2, 3};
+
+        ds::Vector<int>arr2(std::move(arr1));
+
+        REQUIRE(arr1.empty() == true);
+        REQUIRE(arr2.size() == 3);
+        REQUIRE(arr2.at(0) == 1);
+        REQUIRE(arr2.at(1) == 2);
+        REQUIRE(arr2.at(2) == 3);
     }
 }
 
@@ -145,5 +165,17 @@ TEST_CASE("Vectors can take data types", "[vector][push_back]") {
         REQUIRE(arr.at(0) == 0);
         REQUIRE(arr.at(1) == 1000);
         REQUIRE(arr.at(2) == 500000);
+    }
+
+    SECTION("User defined objects") {
+        struct Test {
+            int value;
+        };
+
+        ds::Vector<Test> arr{{10}, {20}};
+
+        REQUIRE(arr.size() == 2);
+        REQUIRE(arr.at(0).value == 10);
+        REQUIRE(arr.at(1).value == 20);
     }
 }
