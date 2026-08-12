@@ -2,17 +2,28 @@
 
 All noteable changes to this project will be documented here.
 
+## Version 0.3.0 08/11/2026
+
+### Added 
+-Catch2  
+
+### Changed
+-Vector unit tests to Catch2  
+
+### Fixed
+-N/A
+
 ## Version 0.2.0 08/09/2026
 
 ### Added
--Converted project to CMake
--Overhauled testing and layout
--Added at() and operator[] const overloads
--Added clear() method
--Added front() and back() methods
+-Converted project to CMake  
+-Overhauled testing and layout  
+-Added at() and operator[] const overloads  
+-Added clear() method  
+-Added front() and back() methods  
 
 ### Changed
--Changed size() and capacity() to const
+-Changed size() and capacity() to const  
 
 ### Fixed
 -N/A
@@ -31,7 +42,7 @@ All noteable changes to this project will be documented here.
 ## Version 0.1.0 07/15/2026
 
 ### Added
--Vector
+-Vector  
 -Rudimentary testing
 
 ### Changed
