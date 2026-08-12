@@ -72,3 +72,7 @@ Testing/
 #---> vscode
 *.vscode
 *.json
+
+#---> Doxygen generated files
+docs/html/
+docs/latex/
