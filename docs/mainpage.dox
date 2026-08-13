@@ -19,19 +19,6 @@
  * - Hash Table
  * - Graph
  *
- * @section usage Usage
- *
- * Example:
- *
- * @code
- * #include <ds/vector.hpp>
- *
- * ds::Vector<int> numbers{1, 2, 3};
-
- * numbers.push_back(4);
- 
- * @endcode
- *
  * @section testing Testing
  *
  * The library uses Catch2 for unit testing.

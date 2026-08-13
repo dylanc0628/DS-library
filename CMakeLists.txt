@@ -28,7 +28,7 @@ if(DS_BUILD_TESTS)
     add_subdirectory(tests)
 endif()
 
-option(DS_BUILD_EXAMPLES "Build examples" ON)
+option(DS_BUILD_EXAMPLES "Build examples" OFF)
 
 if(DS_BUILD_EXAMPLES)
     add_subdirectory(examples)

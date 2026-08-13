@@ -179,3 +179,18 @@ TEST_CASE("Vectors can take data types", "[vector][push_back]") {
         REQUIRE(arr.at(1).value == 20);
     }
 }
+
+TEST_CASE("Vectors returning elements", "[vector][pop_back]") {
+
+    SECTION("Pop_back") {
+        ds::Vector<int> arr{1, 2, 3};
+
+        int x = arr.pop_back();
+        REQUIRE(x == 3);
+        x = arr.pop_back();
+        REQUIRE(x == 2);
+        x = arr.pop_back();
+        REQUIRE(x == 1);
+        REQUIRE(arr.empty() == true);
+    }
+}

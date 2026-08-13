@@ -2,6 +2,17 @@
 
 All noteable changes to this project will be documented here.
 
+## Version 0.3.0 08/12/2026
+
+### Added
+-Doxygen for API documentation
+
+### Changed
+-N/A
+
+### Fixed
+-N/A
+
 ## Version 0.3.0 08/11/2026
 
 ### Added 
