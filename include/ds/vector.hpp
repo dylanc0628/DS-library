@@ -304,6 +304,8 @@ namespace ds {
          * @brief A pointer which points to the beginning of the 
          * container.
          * 
+         * @note Acts as an iterator
+         * 
          * @return A pointer to the first object in the container.
          */
         T* begin() {
@@ -313,6 +315,8 @@ namespace ds {
         /**
          * @brief A pointer which points to the end of the 
          * container.
+         * 
+         * @note Acts as an iterator
          * 
          * @return A pointer to the last object in a container. 
          */

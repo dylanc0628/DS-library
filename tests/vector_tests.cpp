@@ -194,3 +194,87 @@ TEST_CASE("Vectors returning elements", "[vector][pop_back]") {
         REQUIRE(arr.empty() == true);
     }
 }
+
+TEST_CASE("Vectors resizing", "[vector][resize]") {
+
+    SECTION("Resize with an empty vector") {
+        ds::Vector<int> arr;
+
+        REQUIRE(arr.capacity() == 10);
+
+        for (std::size_t i = 0; i < 15; i++) {
+            arr.push_back(i);
+        }
+
+        REQUIRE(arr.capacity() == 20);
+    }
+
+    SECTION("Resize with a vector with a custom capacity") {
+        ds::Vector<int> arr(12);
+
+        REQUIRE(arr.capacity() == 12);
+
+        for (std::size_t i = 0; i < 15; i++) {
+            arr.push_back(i);
+        }
+
+        REQUIRE(arr.capacity() == 24);
+    }
+}
+
+TEST_CASE("Beginning and ending iterators", "[vector][iterators]") {
+
+    SECTION("Beginning iterator") {
+        ds::Vector<int> arr{1,2,3};
+
+        auto x = arr.begin();
+        REQUIRE(*x == 1);
+        x++;
+        REQUIRE(*x == 2);
+        x++;
+        REQUIRE(*x == 3);
+        x++;
+        REQUIRE(x == arr.end());
+    }
+
+    SECTION("Ending iterator") {
+        ds::Vector<int> arr{1,2,3};
+        
+        auto x = arr.end();
+        x--;
+        REQUIRE(*x == 3);
+        x--;
+        REQUIRE(*x == 2);
+        x--;
+        REQUIRE(x == arr.begin());
+    }
+
+    SECTION("For each loop") {
+        ds::Vector<int> arr{1,2,3};
+
+        auto it = arr.begin();
+
+        for(int val : arr) {
+            REQUIRE(*it == val);
+            it++;
+        }
+    }
+}
+
+TEST_CASE("Clearing a vector", "[vector][clear]") {
+
+    ds::Vector<int> arr{1,2,3};
+
+    REQUIRE(arr.empty() == false);
+    arr.clear();
+    REQUIRE(arr.empty() == true);
+}
+
+TEST_CASE("Front and back functions", "[vector][front and back]") {
+
+    ds::Vector<int> arr{1, 2, 3};
+
+    REQUIRE(arr.front() == 1);
+    REQUIRE(arr.back() == 3);
+    REQUIRE((arr.front() + 1) == (arr.back() - 1));
+}
