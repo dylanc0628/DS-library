@@ -218,6 +218,26 @@ namespace ds {
         }
 
         /**
+         * @brief Creates a new array with a custom capacity and 
+         * assigns the elements and pointer from the original to it.
+         * 
+         * @throws std::length_error if the new capacity is less than
+         * the current size
+         */
+        void resize(std::size_t capacity) {
+            if (capacity < size_) {
+                throw std::length_error("Capacity cannot be smaller than size");
+            }
+            auto new_data_ = std::make_unique<T[]>(capacity_);
+            for (std::size_t i = 0; i < size_; i++) {
+                new_data_[i] = data_[i];
+            }
+
+            data_ = std::move(new_data_);
+            capacity_ = capacity;
+        }
+
+        /**
          * @brief Returns the number of elements in the container.
          * 
          * @return the value of size_

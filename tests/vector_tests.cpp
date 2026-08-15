@@ -181,18 +181,17 @@ TEST_CASE("Vectors can take data types", "[vector][push_back]") {
 }
 
 TEST_CASE("Vectors returning elements", "[vector][pop_back]") {
+    ds::Vector<int> arr{1, 2, 3};
 
-    SECTION("Pop_back") {
-        ds::Vector<int> arr{1, 2, 3};
-
-        int x = arr.pop_back();
-        REQUIRE(x == 3);
-        x = arr.pop_back();
-        REQUIRE(x == 2);
-        x = arr.pop_back();
-        REQUIRE(x == 1);
-        REQUIRE(arr.empty() == true);
-    }
+    int x = arr.pop_back();
+    REQUIRE(x == 3);
+    x = arr.pop_back();
+    REQUIRE(x == 2);
+    x = arr.pop_back();
+    REQUIRE(x == 1);
+    REQUIRE(arr.empty() == true);
+    REQUIRE_THROWS_AS(arr.pop_back(), std::out_of_range);
+        
 }
 
 TEST_CASE("Vectors resizing", "[vector][resize]") {
@@ -207,6 +206,7 @@ TEST_CASE("Vectors resizing", "[vector][resize]") {
         }
 
         REQUIRE(arr.capacity() == 20);
+        REQUIRE_THROWS_AS(arr.resize(5), std::length_error);
     }
 
     SECTION("Resize with a vector with a custom capacity") {
@@ -219,6 +219,7 @@ TEST_CASE("Vectors resizing", "[vector][resize]") {
         }
 
         REQUIRE(arr.capacity() == 24);
+        REQUIRE_THROWS_AS(arr.resize(2), std::length_error);
     }
 }
 
@@ -277,4 +278,11 @@ TEST_CASE("Front and back functions", "[vector][front and back]") {
     REQUIRE(arr.front() == 1);
     REQUIRE(arr.back() == 3);
     REQUIRE((arr.front() + 1) == (arr.back() - 1));
+}
+
+TEST_CASE("At throws exception", "[vector][at]") {
+    ds::Vector<int> arr{1,2,3};
+
+    REQUIRE(arr.at(1) == 2);
+    REQUIRE_THROWS_AS(arr.at(5), std::out_of_range);
 }
