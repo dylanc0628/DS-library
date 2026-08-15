@@ -2,6 +2,7 @@
 
 #include <stdexcept>
 #include <cstddef>
+#include <memory>
 
 /**
  * @brief A dynamically sized array container.
@@ -17,7 +18,7 @@ namespace ds {
     template <typename T>
     class Vector {
         private:
-        T* data_;
+        std::unique_ptr<T[]> data_;
         std::size_t capacity_;
         std::size_t size_;
 
@@ -31,7 +32,7 @@ namespace ds {
         Vector() { 
             size_ = 0;
             capacity_ = 10;
-            data_ = new T[capacity_];
+            data_ = std::make_unique<T[]>(capacity_);
         }
 
         /**
@@ -42,7 +43,7 @@ namespace ds {
         Vector(std::size_t x) {
             size_ = 0;
             capacity_ = x;
-            data_ = new T[capacity_];
+            data_ = std::make_unique<T[]>(capacity_);
         }
 
         /**
@@ -56,7 +57,7 @@ namespace ds {
         Vector(std::initializer_list<T> other) {
             size_ = other.size();
             capacity_ = size_ + 10;
-            data_ = new T[capacity_];
+            data_ = std::make_unique<T[]>(capacity_);
 
             std::size_t i = 0;
             for (const auto& val : other) {
@@ -71,12 +72,11 @@ namespace ds {
          * 
          * @param other The vector to copy 
          */
-        Vector(const Vector& other) {
-            //copy constructor
-            size_ = other.size_;
-            capacity_ = other.capacity_;
-            data_ = new T[capacity_];
-
+        Vector(const Vector& other) noexcept
+            : size_(other.size_),
+              capacity_(other.capacity_),
+              data_(std::make_unique<T[]>(other.capacity_))
+        {
             for (std::size_t i = 0; i < size_; i++) {
                 data_[i] = other.data_[i];
             }
@@ -94,15 +94,15 @@ namespace ds {
                 return *this;
             }
 
-            delete[] data_;
+            auto new_data_ = std::make_unique<T[]>(other.capacity_);
 
+            for(std::size_t i = 0; i < other.size_; i++) {
+                new_data_[i] = other.data_[i];
+            }
+
+            data_ = std::move(new_data_);
             size_ = other.size_;
             capacity_ = other.capacity_;
-            data_ = new T[capacity_];
-
-            for (std::size_t i = 0; i < size_; i++) {
-                data_[i] = other.data_[i];
-            }
 
             return *this;
         }
@@ -127,13 +127,11 @@ namespace ds {
          * 
          * @param other The vector containing the data to be moved.
          */
-        Vector(Vector&& other) {
-            //move constructor
-            data_ = other.data_;
-            size_ = other.size_;
-            capacity_ = other.capacity_;
-
-            other.data_ = nullptr;
+        Vector(Vector&& other) noexcept 
+            : size_(other.size_),
+              capacity_(other.capacity_),
+              data_(std::move(other.data_))
+        {
             other.size_ = 0;
             other.capacity_ = 0;
         }
@@ -150,24 +148,14 @@ namespace ds {
                 return *this;
             }
 
-            delete[] data_;
-
-            data_ = other.data_;
+            data_ = std::move(other.data_);
             size_ = other.size_;
             capacity_ = other.capacity_;
 
-            other.data_ = nullptr;
             other.size_ = 0;
             other.capacity_ = 0;
 
             return *this;
-        }
-
-        /**
-         * @brief Destructor for the vector class.
-         */
-        ~Vector() {
-            delete[] data_;
         }
 
         /** 
@@ -221,12 +209,12 @@ namespace ds {
          */
         void resize() {
             capacity_ *= 2;
-            T *new_data = new T[capacity_];
+            auto new_data_ = std::make_unique<T[]>(capacity_);
             for (std::size_t i = 0; i < size_; i++) {
-                new_data[i] = data_[i];
+                new_data_[i] = data_[i];
             }
-            delete[] data_;
-            data_ = new_data;
+
+            data_ = std::move(new_data_);
         }
 
         /**
@@ -309,7 +297,7 @@ namespace ds {
          * @return A pointer to the first object in the container.
          */
         T* begin() {
-            return data_;
+            return data_.get();
         }
 
         /**
@@ -321,21 +309,21 @@ namespace ds {
          * @return A pointer to the last object in a container. 
          */
         T* end() {
-            return data_ + size_;
+            return data_.get() + size_;
         }
 
         /**
          * @brief A const version of the above begin() method.
          */
         const T* begin() const {
-            return data_;
+            return data_.get();
         }
 
         /**
          * @brief A const version of the above end() method.
          */
         const T* end() const {
-            return data_ + size_;
+            return data_.get() + size_;
         }
 
         /**
