@@ -201,11 +201,16 @@ TEST_CASE("Vectors resizing", "[vector][resize]") {
 
         REQUIRE(arr.capacity() == 10);
 
-        for (std::size_t i = 0; i < 15; i++) {
+        for (std::size_t i{0}; i < 15; i++) {
             arr.push_back(i);
         }
 
         REQUIRE(arr.capacity() == 20);
+        
+        for (std::size_t i{0}; i < 15; i++) {
+            REQUIRE(arr.at(i) == i);
+        }
+
         REQUIRE_THROWS_AS(arr.resize(5), std::length_error);
     }
 
@@ -214,11 +219,16 @@ TEST_CASE("Vectors resizing", "[vector][resize]") {
 
         REQUIRE(arr.capacity() == 12);
 
-        for (std::size_t i = 0; i < 15; i++) {
+        for (std::size_t i{0}; i < 15; i++) {
             arr.push_back(i);
         }
 
         REQUIRE(arr.capacity() == 24);
+
+        for (std::size_t i{0}; i < 15; i++) {
+            REQUIRE(arr.at(i) == i);
+        }
+
         REQUIRE_THROWS_AS(arr.resize(2), std::length_error);
     }
 }

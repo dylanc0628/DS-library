@@ -2,6 +2,18 @@
 
 All noteable changes to this project will be documented here.
 
+## Version 0.3.1 08/18/2026
+
+### Added
+-Destructor for linked list
+
+### Changed
+-Copy and move constructors in vector
+-Move assignment operator in vector
+
+### Fixed
+-Logic in several LinkedList functions
+
 ## Version 0.3.0 08/12/2026
 
 ### Added

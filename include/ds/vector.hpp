@@ -72,10 +72,10 @@ namespace ds {
          * 
          * @param other The vector to copy 
          */
-        Vector(const Vector& other) noexcept
-            : size_(other.size_),
+        Vector(const Vector& other) 
+            : data_(std::make_unique<T[]>(other.capacity_)),
               capacity_(other.capacity_),
-              data_(std::make_unique<T[]>(other.capacity_))
+              size_(other.size_)
         {
             for (std::size_t i = 0; i < size_; i++) {
                 data_[i] = other.data_[i];
@@ -101,8 +101,8 @@ namespace ds {
             }
 
             data_ = std::move(new_data_);
-            size_ = other.size_;
             capacity_ = other.capacity_;
+            size_ = other.size_;
 
             return *this;
         }
@@ -128,9 +128,9 @@ namespace ds {
          * @param other The vector containing the data to be moved.
          */
         Vector(Vector&& other) noexcept 
-            : size_(other.size_),
+            : data_(std::move(other.data_)),
               capacity_(other.capacity_),
-              data_(std::move(other.data_))
+              size_(other.size_)
         {
             other.size_ = 0;
             other.capacity_ = 0;
@@ -142,15 +142,15 @@ namespace ds {
          * 
          * @param other The vector containing the data to be moved. 
          */
-        Vector& operator=(Vector&& other) {
+        Vector& operator=(Vector&& other) noexcept {
             //move assignment operator
             if (this == &other) {
                 return *this;
             }
 
             data_ = std::move(other.data_);
-            size_ = other.size_;
             capacity_ = other.capacity_;
+            size_ = other.size_;
 
             other.size_ = 0;
             other.capacity_ = 0;
@@ -210,7 +210,7 @@ namespace ds {
         void resize() {
             capacity_ *= 2;
             auto new_data_ = std::make_unique<T[]>(capacity_);
-            for (std::size_t i = 0; i < size_; i++) {
+            for (std::size_t i{0}; i < size_; i++) {
                 new_data_[i] = data_[i];
             }
 
@@ -229,7 +229,7 @@ namespace ds {
                 throw std::length_error("Capacity cannot be smaller than size");
             }
             auto new_data_ = std::make_unique<T[]>(capacity_);
-            for (std::size_t i = 0; i < size_; i++) {
+            for (std::size_t i{0}; i < size_; i++) {
                 new_data_[i] = data_[i];
             }
 

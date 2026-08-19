@@ -1,6 +1,7 @@
 #pragma once
 
-#include<memory>
+#include <memory>
+#include <stdexcept>
 
 /**
  * @brief A container of noncontiguous values connected by pointers
@@ -22,6 +23,13 @@
         std::size_t size_ = 0;
 
         public:
+        ~LinkedList() {
+            while(head_) {
+                head = std::move(head->next_);
+            }
+            tail_ = nullptr;
+        }
+
         void insertAtBeginning(const T& value) {
             auto newNode = std::make_unique<Node>(value);
 
@@ -54,12 +62,12 @@
 
             if (index == 0) {
                 insertAtBeginning(value);
-                return
+                return;
             }
 
             auto indexPtr = head_.get();
 
-            for (std::size_t i{0}; i < index - 1; i++) {
+            for (std::size_t i{0}; i < index - 2; i++) {
                 indexPtr = indexPtr->next_.get();
             }
 
@@ -92,7 +100,7 @@
             }
 
             if (size_ == 1) {
-                head_.reset();
+                head_ = nullptr;
                 tail_ = nullptr;
                 size_--;
                 return;
@@ -108,7 +116,7 @@
             }
 
             if (size_ == 1) {
-                head_.reset();
+                head_ = nullptr;
                 tail_ = nullptr;
                 size_--;
                 return;
@@ -120,7 +128,7 @@
                 indexPtr = indexPtr->next_.get();
             }
 
-            indexPtr->next.reset();
+            indexPtr->next_.reset();
             tail_ = indexPtr;
 
             size_--;
