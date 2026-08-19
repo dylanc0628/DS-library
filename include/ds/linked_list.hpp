@@ -56,7 +56,7 @@
         };
 
         void insertAtIndex(const T& value, std::size_t index) {
-            if (size_ < index) {
+            if (index > size_) {
                 throw std::out_of_range("Invalid index");
             }
 
@@ -77,7 +77,7 @@
             indexPtr->next_ = std::move(newNode);
 
             if (index == size_) {
-                tail_ = indexPtr->next_.get();
+                tail_ = tail_->next_.get();
             }
 
             size_++;
@@ -132,6 +132,51 @@
             tail_ = indexPtr;
 
             size_--;
+        }
+
+        void deleteFromIndex(std::size_t index) {
+            if (empty()) {
+                throw std::out_of_range("Empty list");
+            }
+
+            if (index >= size_) {
+                throw std::out_of_range("Index is out of bounds");
+            }
+
+            if (size_ == 1) {
+                head_ = nullptr;
+                tail_ = nullptr;
+                size_--;
+                return;
+            }
+
+            if (index == 0) {
+                head_ = std::move(head_->next_);
+                size_--;
+                return;
+            }
+
+            auto* indexPtr = head_.get();
+
+            for (std::size_t i{0}; i < index - 2; i++) {
+                indexPtr = indexPtr->next_.get();
+            }
+
+            if (tail_ == indexPtr->next_.get()) {
+                tail_ = indexPtr;
+            }
+
+            indexPtr->next_ = std::move(indexPtr->next_->next_);
+            
+            size_--;
+        }
+
+        void deleteByValue(const T& value) {
+            
+        }
+
+        T& searchByValue(const T& value) {
+
         }
     };
  }
