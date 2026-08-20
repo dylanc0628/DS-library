@@ -25,7 +25,7 @@
         public:
         ~LinkedList() {
             while(head_) {
-                head = std::move(head->next_);
+                head_ = std::move(head_->next_);
             }
             tail_ = nullptr;
         }
@@ -67,7 +67,7 @@
 
             auto indexPtr = head_.get();
 
-            for (std::size_t i{0}; i < index - 2; i++) {
+            for (std::size_t i{0}; i < index - 1; i++) {
                 indexPtr = indexPtr->next_.get();
             }
 
@@ -158,7 +158,7 @@
 
             auto* indexPtr = head_.get();
 
-            for (std::size_t i{0}; i < index - 2; i++) {
+            for (std::size_t i{0}; i < index - 1; i++) {
                 indexPtr = indexPtr->next_.get();
             }
 
@@ -176,28 +176,28 @@
                 throw std::out_of_range("Empty list");
             }
 
-            if (size_ == 1 && head_.get() == value) {
+            if (size_ == 1 && head_->data_ == value) {
                 head_ = nullptr;
                 tail_ = nullptr;
                 size_--;
                 return;
             }
 
-            if (head_.get() == value && size_ > 1) {
+            if (head_->data_ == value && size_ > 1) {
                 head_ = std::move(head_->next_);
             }
 
             auto* indexPtr = head_.get();
 
             for (std::size_t i{0}; i < size_ - 1; i++) {
-                if (indexPtr->next_.get() == value) {
+                if (indexPtr->next_->data_ == value) {
                     indexPtr->next_ = std::move(indexPtr->next_->next_);
                     size_--;
                     return;
                 }
                 indexPtr = indexPtr->next_.get();
                 if (indexPtr == tail_) {
-                    return;
+                    throw std::runtime_error("Value not found")
                 }
             }
         }
@@ -207,19 +207,19 @@
                 throw std::out_of_range("Empty list");
             }
 
-            if (head_.get() == value) {
-                return head_.get();
+            if (head_->data_ == value) {
+                return head_->data_;
             }
 
             auto* indexPtr = head_.get();
 
             for (std::size_t i{0}; i < size_ - 1; i++) {
-                if (indexPtr->next_.get() == value) {
-                    return indexPtr->next_.get();
+                if (indexPtr->next_->data_ == value) {
+                    return indexPtr->next_->data_;
                 }
                 indexPtr = indexPtr->next_.get();
                 if (indexPtr == tail_) {
-                    return;
+                    throw std::runtime_error("Value not found")
                 }
             }
         }
@@ -234,16 +234,16 @@
             }
 
             if (size_ == 1) {
-                return head_.get();
+                return head_->data_;
             }
 
             auto* indexPtr = head_.get();
 
-            for (std::size_t i{0}; i < index - 1; i++) {
-                indexPtr = indexPtr->next.get();
+            for (std::size_t i{0}; i < index; i++) {
+                indexPtr = indexPtr->next_.get();
             }
 
-            return indexPtr.get();
+            return indexPtr->data_;
         }
     };
  }

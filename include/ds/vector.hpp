@@ -228,7 +228,7 @@ namespace ds {
             if (capacity < size_) {
                 throw std::length_error("Capacity cannot be smaller than size");
             }
-            auto new_data_ = std::make_unique<T[]>(capacity_);
+            auto new_data_ = std::make_unique<T[]>(capacity);
             for (std::size_t i{0}; i < size_; i++) {
                 new_data_[i] = data_[i];
             }
