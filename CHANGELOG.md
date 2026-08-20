@@ -5,10 +5,10 @@ All noteable changes to this project will be documented here.
 ## Version 0.3.1 08/18/2026
 
 ### Added
--Destructor for linked list
+-N/A
 
 ### Changed
--Copy and move constructors in vector
+-Copy and move constructors in vector  
 -Move assignment operator in vector
 
 ### Fixed
