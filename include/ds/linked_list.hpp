@@ -143,7 +143,7 @@
                 throw std::out_of_range("Index is out of bounds");
             }
 
-            if (size_ == 1) {
+            if (size_ == 1 && index == 0) {
                 head_ = nullptr;
                 tail_ = nullptr;
                 size_--;
@@ -172,11 +172,78 @@
         }
 
         void deleteByValue(const T& value) {
-            
+            if (empty()) {
+                throw std::out_of_range("Empty list");
+            }
+
+            if (size_ == 1 && head_.get() == value) {
+                head_ = nullptr;
+                tail_ = nullptr;
+                size_--;
+                return;
+            }
+
+            if (head_.get() == value && size_ > 1) {
+                head_ = std::move(head_->next_);
+            }
+
+            auto* indexPtr = head_.get();
+
+            for (std::size_t i{0}; i < size_ - 1; i++) {
+                if (indexPtr->next_.get() == value) {
+                    indexPtr->next_ = std::move(indexPtr->next_->next_);
+                    size_--;
+                    return;
+                }
+                indexPtr = indexPtr->next_.get();
+                if (indexPtr == tail_) {
+                    return;
+                }
+            }
         }
 
         T& searchByValue(const T& value) {
+            if (empty()) {
+                throw std::out_of_range("Empty list");
+            }
 
+            if (head_.get() == value) {
+                return head_.get();
+            }
+
+            auto* indexPtr = head_.get();
+
+            for (std::size_t i{0}; i < size_ - 1; i++) {
+                if (indexPtr->next_.get() == value) {
+                    return indexPtr->next_.get();
+                }
+                indexPtr = indexPtr->next_.get();
+                if (indexPtr == tail_) {
+                    return;
+                }
+            }
+        }
+
+        T& searchByIndex(std::size_t index) {
+            if (empty()) {
+                throw std::out_of_range("Empty list");
+            }
+
+            if (index >= size_) {
+                throw std::out_of_range("Index is out of bounds");
+            }
+
+            if (size_ == 1) {
+                return head_.get();
+            }
+
+            auto* indexPtr = head_.get();
+
+            for (std::size_t i{0}; i < index - 1; i++) {
+                indexPtr = indexPtr->next.get();
+            }
+
+            return indexPtr.get();
         }
     };
  }
